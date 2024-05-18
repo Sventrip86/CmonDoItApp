@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
+import HomeStackNavigator from './HomeStackNavigator';
 
 
 const Tab = createBottomTabNavigator()
@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator()
 const AppTabNavigator = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={HomeStackNavigator} />
             <Tab.Screen name="List" component={ListScreen} />
 
         </Tab.Navigator>
