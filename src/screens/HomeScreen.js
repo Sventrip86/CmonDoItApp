@@ -14,9 +14,11 @@ import {
   Snackbar,
   
   SegmentedButtons,
+  IconButton,
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useToDoList } from "../contexts/ToDoListContext";
+
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -48,21 +50,76 @@ const HomeScreen = () => {
   };
 
   
+//  function to get the current time 
+const getCurrentTime = () => {
+  const hours = new Date().getHours();
+  if (hours < 12) {
+    return 'morning';
+  } else if (hours < 18 ) {
+    return 'afternoon';
+  } else if(hours < 22 ) {
+    return 'evening';
+  } else return 'night'
+}
 
+const displayTime = () => {
+  return (
+    `${hours} : ${minutes}`
+  )
+}
+
+const time = getCurrentTime()
+
+const hours = new Date().getHours();
+const minutes = new Date().getMinutes();
+
+const renderCardTimeBased = () => {
+  switch (time) {
+    case 'morning':
+      return <MorningCard/>
+    case 'afternoon':
+      return null
+    case 'evening':
+      return <EveningCard/>  
+    case 'night':
+      return null  
+    default:
+      break;
+  }
+}
+
+const MorningCard = () => {
+  return (
+    <View style={styles.innerContainer}>
+    <TouchableOpacity onPress={() => navigation.navigate("Morning")}>
+      <Text variant="headlineSmall">
+      Good {getCurrentTime()} Fabs! its <Text style={{fontSize: 30}}>{displayTime()} </Text></Text>
+    </TouchableOpacity>
+  </View>
+  )
+}
+
+const EveningCard = () => {
+  return (
+    <View style={styles.innerContainer}>
+    <TouchableOpacity onPress={() => navigation.navigate("Morning")}>   
+      <Text variant="headlineSmall">
+        Good {getCurrentTime()} Fabs! its  <Text style={{fontSize: 30}}>{displayTime()} </Text>
+      </Text>
+    </TouchableOpacity>
+  </View>
+  )
+}
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Buongiorno Fabs</Text>
+     
       <ScrollView style={styles.scrollView}>
-        <View style={styles.innerContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("Morning")}>
-            <Text variant="headlineSmall">
-              Morning check... qui lo screen dove vengono chieste cose come: hai
-              dormito bene?, come stai adesso, colazione?
-            </Text>
-          </TouchableOpacity>
-        </View>
+       
+       {/* time based card  */}
+      {renderCardTimeBased()}
+
         <View style={styles.innerContainer}>
           <Text>Cose da fare</Text>
           <TextInput
@@ -97,6 +154,12 @@ const HomeScreen = () => {
               },
             ]}
           ></SegmentedButtons>
+          <IconButton
+            icon="arrow-down"
+            iconColor='black'
+            size={40}
+            onPress={() => console.log('Pressed')} 
+            />   
           <Button
             mode="contained"
             style={styles.createButton}
